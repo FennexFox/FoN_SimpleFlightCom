@@ -9,8 +9,8 @@ namespace simpleCalc_Data
 
         // public double SGP ()
 
-        public interface IBodyParams{ // Parameters for objects with its own gravity well
-            string name{get; private set;}
+        public interface IBodyParams{ // Parameters for objects with their own gravity well
+            string bodyName{get; private set;}
 
             float mass{get; private set;}
             float diameter{get; private set;}
@@ -29,26 +29,40 @@ namespace simpleCalc_Data
             float longitudeOfAN{get; private set;} // 3 floats above could be defined as vector3, but let me see.
         }
 
-        public interface IFixedFascilityParams{
+        public interface IFascilityParams{ // Parameters for objects without their own graviy well, such as land base or orbital stations 
             string originBodyName{get; private set;}
+            string fascilityName{get; private set;}
 
+            bool isOrbital{get; private set;} // Being in vacuum or not doesen't matter; if it's moving at orbital velocity or frefalling, it's orbital
+            Vector3 initialVelocity{get; private set;} // It's important even for non-orbital fascilities
+        }
+
+        public interface INonOrbitalFacilityParams{
             float latitude{get; private set;}
             float longitude{get; private set;}
             float altitude{get; private set;}
-
-            Vector3 initialVelocity{get; private set;} // This shall be re-defined using Unity Vector3 before implemented as a mod.
         }
 
-/*
-      public class CelestialBody : IBodyParams, IOrbitalParams{
+/*       public interface IOrbitalFacilityParams{
+            No params for Orbital Fascilities other than Orbital Params at this point
+        }*/
+    }
+    
+    public class CelestialBody : IBodyParams, IOrbitalParams{
             public CelestialBody( ... ){
                 name = ;
                 mass = ; diameter = ; axialTilt = ; siderealRotationPeriod = ;
                 inclination = ; eccentricity = ; Apoapsis = ; Periapsis = ;
                 trueAnomaly = ; argumentOfPeriapsis = ; longitudeOfAN = ;
             }
-        }
-*/
+    }
+
+    public class LaunchSite : IFascilityParams, INonOrbitalFacilityParams{
+
+    }
+
+    public class OrbitalStation : IFascilityParams, IOrbitalParams{
+
     }
 
 }
